@@ -9,13 +9,16 @@ public class SimpleCountingFacade implements CountingFacade {
 	private final BusinessService businessService;
 	
 	private int invocationCounter;
+	private Object lock = new Object();
 	
 	public SimpleCountingFacade(BusinessService businessService) {
 		this.businessService = businessService;
 	}
 	
 	public void countAndInvoke() {
-		invocationCounter++;
+		synchronized(lock){
+			invocationCounter++;
+		}
 		businessService.executeAction();
 	}
 	
